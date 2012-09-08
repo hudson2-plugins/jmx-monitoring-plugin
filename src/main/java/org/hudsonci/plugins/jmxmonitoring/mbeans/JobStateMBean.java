@@ -10,8 +10,6 @@
  */
 package org.hudsonci.plugins.jmxmonitoring.mbeans;
 
-import java.util.Calendar;
-
 /**
  *
  * @author henrik

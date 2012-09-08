@@ -38,7 +38,5 @@ public interface SlaveStateMBean {
     long getFreeDiskspaceTemporary();
 
     long getResponseTime();
-
-    // disk usage
     
 }

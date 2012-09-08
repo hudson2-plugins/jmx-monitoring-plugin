@@ -28,5 +28,4 @@ public interface OverviewMBean {
     
     int getQueueLength();
     
-//    int getDiskUsage();
 }

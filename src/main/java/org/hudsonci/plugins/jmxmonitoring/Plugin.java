@@ -16,6 +16,8 @@ import javax.management.MBeanServer;
 import javax.management.ObjectName;
 import org.hudsonci.plugins.jmxmonitoring.mbeans.Overview;
 import org.hudsonci.plugins.jmxmonitoring.mbeans.SlaveState;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -24,16 +26,11 @@ import org.hudsonci.plugins.jmxmonitoring.mbeans.SlaveState;
 @Named
 public class Plugin extends hudson.Plugin {
 
-    public Plugin() {
-                System.out.println("*** Plugin");
-
-    }
-
-    
+    private static final Logger LOGGER = LoggerFactory.getLogger(Plugin.class);                
     
     @Override
     public void postInitialize() throws Exception {
-        super.postInitialize();
+        LOGGER.info("Registering Hudson MBeans");
         MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
         ObjectName name = new ObjectName("org.hudsonci.plugin.jmxmonitoring:type=Hudson");
         Overview mbean = new Overview();

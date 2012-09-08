@@ -15,13 +15,13 @@ import hudson.model.Item;
 import hudson.model.Project;
 import hudson.model.listeners.ItemListener;
 import java.lang.management.ManagementFactory;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.inject.Named;
+import javax.management.JMException;
 import javax.management.MalformedObjectNameException;
 import javax.management.ObjectName;
 import org.hudsonci.plugins.jmxmonitoring.mbeans.JobState;
 import org.hudsonci.plugins.jmxmonitoring.mbeans.JobStateMBean;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -30,13 +30,11 @@ import org.hudsonci.plugins.jmxmonitoring.mbeans.JobStateMBean;
 @Named
 public class JobLoadedListener extends ItemListener {
 
-    public JobLoadedListener() {
-        System.out.println("*** JobLoaded Listener");
-    }
+    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(Plugin.class);
 
     @Override
     public void onLoaded() {
-        System.out.println("Creating MBeans for  jobs");
+        LOGGER.info("Initial setup of job MBeans");
         for (Project p : Hudson.getInstance().getProjects()) {
             registerJobBean(p.getName());
         }
@@ -44,21 +42,25 @@ public class JobLoadedListener extends ItemListener {
 
     @Override
     public void onDeleted(Item item) {
+        LOGGER.info("Job deleted, unregistering bean for "+item.getName());
         unregisterJobBean(item.getName());
     }
 
     @Override
     public void onCreated(Item item) {
+        LOGGER.info("Job created, registering bean for "+item.getName());
         registerJobBean(item.getName());
     }
 
     @Override
     public void onCopied(Item src, Item item) {
+        LOGGER.info("Job created, registering bean for "+item.getName());
         registerJobBean(item.getName());
     }
 
     @Override
     public void onRenamed(Item item, String oldName, String newName) {
+        LOGGER.info("Job renamed, unregistering bean for "+oldName+ " and registering for "+newName);
         unregisterJobBean(oldName);
         registerJobBean(newName);
     }
@@ -67,16 +69,16 @@ public class JobLoadedListener extends ItemListener {
         try {
             JobStateMBean jobMbean = new JobState(name);
             ManagementFactory.getPlatformMBeanServer().registerMBean(jobMbean, getObjectName(name));
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (JMException e) {
+            LOGGER.error("Failed to reconfigure MBeans for job", e);
         }
     }
 
     private void unregisterJobBean(String name) {
         try {
             ManagementFactory.getPlatformMBeanServer().unregisterMBean(getObjectName(name));
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (JMException e) {
+            LOGGER.error("Failed to reconfigure MBeans for job", e);
         }
     }
 
@@ -85,7 +87,7 @@ public class JobLoadedListener extends ItemListener {
         try {
             return new ObjectName("org.hudsonci.plugin.jmxmonitoring:type=Job,name=" + name);
         } catch (MalformedObjectNameException ex) {
-            Logger.getLogger(JobLoadedListener.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.error("Failed to reconfigure MBeans for job", ex);
             return null;
         }
     }
