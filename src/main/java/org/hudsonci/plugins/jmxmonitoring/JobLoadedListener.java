@@ -23,10 +23,6 @@ import org.hudsonci.plugins.jmxmonitoring.mbeans.JobState;
 import org.hudsonci.plugins.jmxmonitoring.mbeans.JobStateMBean;
 import org.slf4j.LoggerFactory;
 
-/**
- *
- * @author henrik
- */
 @Named
 public class JobLoadedListener extends ItemListener {
 

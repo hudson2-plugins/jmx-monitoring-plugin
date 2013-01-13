@@ -21,18 +21,6 @@ import java.util.List;
  */
 public class Overview implements OverviewMBean {
 
-    public List<String> getJobNames() {
-        return new ArrayList<String>(Hudson.getInstance().getJobNames());        
-    }
-
-    public List<String> getSlaveNames() {
-        List<String> result = new ArrayList<String>(Hudson.getInstance().getNodes().size());
-        for (Node n : Hudson.getInstance().getNodes()) {
-            result.add(n.getNodeName());
-        }
-        return result;
-    }
-
     @Override
     public int getExecutorsIdle() {
         return Hudson.getInstance().overallLoad.computeIdleExecutors();
@@ -47,7 +35,4 @@ public class Overview implements OverviewMBean {
         return Hudson.getInstance().overallLoad.computeQueueLength();
     }
     
-//    public int getDiskUsage() {
-//        return -1;
-//    }
 }

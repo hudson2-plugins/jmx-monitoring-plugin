@@ -6,7 +6,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *    Henrik Lynggaard Hansen- initial API and implementation and/or initial documentation
+ *    Henrik Lynggaard Hansen - initial API and implementation and/or initial documentation
  */
 package org.hudsonci.plugins.jmxmonitoring;
 
@@ -19,10 +19,6 @@ import org.hudsonci.plugins.jmxmonitoring.mbeans.SlaveState;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
- *
- * @author henrik
- */
 @Named
 public class Plugin extends hudson.Plugin {
 

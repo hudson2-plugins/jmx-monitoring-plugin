@@ -10,22 +10,14 @@
  */
 package org.hudsonci.plugins.jmxmonitoring.mbeans;
 
-import java.util.List;
-
 /**
  *
  * @author henrik
  */
 public interface OverviewMBean {
-    
-    List<String> getJobNames();
-    
-    List<String> getSlaveNames();
-  
+     
     int getExecutors();
-    int getExecutorsIdle();
-   
-    
+    int getExecutorsIdle();      
     int getQueueLength();
     
 }

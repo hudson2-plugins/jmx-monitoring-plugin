@@ -10,10 +10,6 @@
  */
 package org.hudsonci.plugins.jmxmonitoring.mbeans;
 
-/**
- *
- * @author henrik
- */
 public interface SlaveStateMBean {
     
     String getName();

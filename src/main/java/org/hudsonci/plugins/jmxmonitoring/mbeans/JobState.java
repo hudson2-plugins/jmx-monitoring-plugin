@@ -13,10 +13,6 @@ package org.hudsonci.plugins.jmxmonitoring.mbeans;
 import hudson.model.Hudson;
 import hudson.model.Job;
 
-/**
- *
- * @author henrik
- */
 public class JobState implements JobStateMBean {
 
     String name;
